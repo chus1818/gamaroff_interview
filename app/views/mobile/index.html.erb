@@ -48,18 +48,11 @@
               var userCredentialsWithRowId   = userCredentials;
               userCredentialsWithRowId.rowId = this.id;
 
-              pubnub.publish({
-                channel: 'desktop',        
-                message: userCredentialsWithRowId
-              });
-
+              publishToPubnub( pubnub, userCredentialsWithRowId )
               moveImgToRow( userCredentialsWithRowId.id, this.id, '.ui-page' );
             });
 
-            pubnub.publish({
-              channel: 'desktop',        
-              message: userCredentials
-            });
+            publishToPubnub( pubnub, userCredentials );
 
             $('#login').hide();
 
@@ -68,13 +61,14 @@
             $(".fb-profile").on('tap', function(e){
               c = confirm( 'are you sure?' )
               if( c == true ) {
-                pubnub.publish({
-                  channel: 'desktop',        
-                  message: { messageType: 'confirmation', id: userCredentials.id, first_name: userCredentials.first_name }
-                });
+                var message = { 
+                  messageType: 'confirmation',
+                  id: userCredentials.id,
+                  first_name: userCredentials.first_name
+                }
+
+                publishToPubnub( pubnub, message );
               }
-              e.preventDefault();
-              return false;
             });
           });
         } else {

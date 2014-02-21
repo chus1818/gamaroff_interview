@@ -32,10 +32,25 @@ $(function(){
   }
 })
 
+// Pubnub handling
+
+function connectToPubNub() {
+  return PUBNUB.init({
+    publish_key: 'pub-c-064fe80e-e897-47e1-b39f-0a3a66d58612',
+    subscribe_key: 'sub-c-7956b8b2-9afe-11e3-b431-02ee2ddab7fe'
+  });
+}
+
+function publishToPubnub( pubnubObj, message ){
+  pubnubObj.publish({
+    channel: 'desktop',        
+    message: message
+  });
+}
+
 function getImage(id){
   return "<div id='c_" + id + "' class='column'>" + 
-    "<img src='http://graph.facebook.com/" + id + "/picture?type=large' id=" + id + " class=fb-profile />"
-    
+    "<img src='http://graph.facebook.com/" + id + "/picture?type=large' id=" + id + " class=fb-profile />" + 
   "</div>"
 }
 
@@ -47,13 +62,6 @@ function appendImage(imgId, row, container){
 
   $( container ).append( image );
   $('#' + imgId).css('top', (row.substr(row.length - 1) - 1)*20 + '%');
-}
-
-function connectToPubNub() {
-  return PUBNUB.init({
-    publish_key: 'pub-c-064fe80e-e897-47e1-b39f-0a3a66d58612',
-    subscribe_key: 'sub-c-7956b8b2-9afe-11e3-b431-02ee2ddab7fe'
-  });
 }
 
 function moveImgToRow( imgId, row, container ) {
@@ -95,7 +103,7 @@ function carrousel( statesArray ) {
 
 function setCarrouselState( state ) {
   var color = '#694278';
-  debugger;
+
   switch( state.rowId ){
     case 'row-1':
       color = '#694278';
@@ -113,7 +121,7 @@ function setCarrouselState( state ) {
       color = '#265a76';
       break;
   }
-  debugger;
+
   $('body').css('background', color);
   
   if( $("#first-name") ) { $("#first-name").remove() }
