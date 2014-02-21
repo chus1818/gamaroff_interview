@@ -16,10 +16,13 @@ html, body, .ui-page {
   margin: 0 !important;
   width: 100% !important;
   height: 100% !important;
+  text-align: center;
 }
 
 .row {
   height: 20%;
+  position: absolute;
+  width: 100%;
 }
 
 .row#row-1 {
@@ -27,24 +30,34 @@ html, body, .ui-page {
 }
 
 .row#row-2 {
+  top: 20%;
   background: blue;
 }
 
 .row#row-3 {
+  top: 40%;
   background: yellow;
 }
 
 .row#row-4 {
+  top: 60%;
   background: red;
 }
 
 .row#row-5 {
+  top: 80%;
   background: orange;
 }
 
 img.fb-profile {
-  max-height: 100%;
+  max-height: 20%;
   z-index: 20;
+  position: absolute;
+}
+
+.column {
+  z-index: 10;
+  height: 100%;
 }
 
 img.fb-profile .confirmed {

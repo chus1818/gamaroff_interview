@@ -53,7 +53,7 @@
                 message: userCredentialsWithRowId
               });
 
-              moveImgToRow( userCredentialsWithRowId.id, this.id );
+              moveImgToRow( userCredentialsWithRowId.id, this.id, '.ui-page' );
             });
 
             pubnub.publish({
@@ -63,9 +63,19 @@
 
             $('#login').hide();
 
-            $("#row-3").html( getImage( response.id ) );
+            appendImage( response.id, 'row_3', '.ui-page' );
 
-            
+            $(".fb-profile").on('click tap', function(){
+              c = confirm( 'are you sure?' )
+              if( c == true ) {
+                pubnub.publish({
+                  channel: 'desktop',        
+                  message: { messageType: 'confirmation', id: userCredentials.id, first_name: userCredentials.first_name }
+                });
+
+                //$(this).addClass('confirmed');
+              }
+            });
           });
         } else {
           console.log('User cancelled login or did not fully authorize.');

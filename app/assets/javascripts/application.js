@@ -15,7 +15,20 @@
 //= require_tree .
 
 function getImage(id){
-  return $("<img />").attr( 'src', 'http://graph.facebook.com/' + id + '/picture?type=large' ).attr( 'id', id ).attr( 'class', 'fb-profile' )
+  return "<div id='c_" + id + "' class='column'>" + 
+    "<img src='http://graph.facebook.com/" + id + "/picture?type=large' id=" + id + " class=fb-profile />"
+    
+  "</div>"
+}
+
+function appendImage(imgId, row, container){
+  var image = getImage( imgId );
+
+  var existingImage = $('#c_' + imgId);
+  if( existingImage ) { existingImage.remove(); }
+
+  $( container ).append( image );
+  $('#' + imgId).css('top', (row.substr(row.length - 1) - 1)*20 + '%');
 }
 
 function connectToPubNub() {
@@ -25,10 +38,15 @@ function connectToPubNub() {
   });
 }
 
-function moveImgToRow( img_id, row ) {
-  var img = getImage( img_id );
-  var existingImage = $('#' + img_id);
-  if( existingImage ) { existingImage.remove(); }
+function moveImgToRow( imgId, row, container ) {
+  var img = getImage( imgId );
 
-  $( "#" + row ).append( img );
+  appendImage( imgId, row, container );
+}
+
+function addItemToArrayIfNotPresent(element, array) {
+  var found = jQuery.inArray(element, array);
+  if (found == -1) {
+    array.push(element);
+  }
 }

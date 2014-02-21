@@ -1,18 +1,30 @@
 <script src=http://cdn.pubnub.com/pubnub.min.js ></script>
 <script>
   var pubnub = connectToPubNub();
+  var presentUsers = [];
+  var confirmedUsers = [];
 
   pubnub.subscribe({
     channel: 'desktop',
     message: function( m ){
-      
-      $('.welcome-message').hide()
-        
-      if( m.rowId === undefined ) {
-        m.rowId = 'row-3';
-      }
+      if( m.messageType == 'confirmation' ) {
+        addItemToArrayIfNotPresent( m.id, confirmedUsers );
+      } else {
+        if( presentUsers == confirmedUsers ) {
+          $(".row").hide();
+          // start corrousel
+        } else {
+          addItemToArrayIfNotPresent( m.id, presentUsers );
+          
+          $('.welcome-message').hide()
+          
+          if( m.rowId === undefined ) {
+            m.rowId = 'row-3';
+          }
 
-      moveImgToRow( m.id, m.rowId );
+          moveImgToRow( m.id, m.rowId, 'body' );
+        }
+      }
     }
   });
 </script>
