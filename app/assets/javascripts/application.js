@@ -50,3 +50,37 @@ function addItemToArrayIfNotPresent(element, array) {
     array.push(element);
   }
 }
+
+function storeStates(userState, array) {
+  $.each(array, function(index, value){
+    if( value.id == userState.id ) {
+      array.splice( index, 1 );
+    }
+  })
+  array.push(userState);
+  return array;
+}
+
+function storeState( state ) {
+  var color = '#694278';
+  
+  switch( state.rowId ){
+    case 'row_1':
+      color = '#694278';
+      break;
+    case 'row_2':
+      color = '#e33c3c';
+      break;
+    case 'row_3':
+      color = '#328a6a';
+      break;
+    case 'row_4':
+      color = '#f2bf57';
+      break;
+    case 'row_5':
+      color = '#265a76';
+      break;
+  }
+
+  $('body').css('background', color);
+}

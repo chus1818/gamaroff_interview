@@ -3,6 +3,7 @@
   var pubnub = connectToPubNub();
   var presentUsers = [];
   var confirmedUsers = [];
+  var userStates = [];
 
   pubnub.subscribe({
     channel: 'desktop',
@@ -11,11 +12,20 @@
         addItemToArrayIfNotPresent( m.id, confirmedUsers );
       } else {
         if( presentUsers == confirmedUsers ) {
-          $(".row").hide();
-          // start corrousel
-        } else {
-          addItemToArrayIfNotPresent( m.id, presentUsers );
           
+          var n = 1;
+          $(".row").hide();
+
+          setInterval(function(){
+            setState( userStates[n] );
+            n++;
+            if( n > confirmedUsers.length ) { n = 1 }
+          }, 3000)
+
+        } else {
+
+          addItemToArrayIfNotPresent( m.id, presentUsers );
+          userStates = storeState( m, userStates );
           $('.welcome-message').hide()
           
           if( m.rowId === undefined ) {
