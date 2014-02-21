@@ -54,6 +54,7 @@ img.fb-profile {
   z-index: 20;
   position: relative;
   cursor: pointer;
+  -webkit-touch-callout: none !important; 
 }
 
 .column {

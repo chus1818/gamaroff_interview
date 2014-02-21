@@ -65,7 +65,7 @@
 
             appendImage( response.id, 'row_3', '.ui-page' );
 
-            $(".fb-profile").on('click tap', function(){
+            $(".fb-profile").on('tap', function(e){
               c = confirm( 'are you sure?' )
               if( c == true ) {
                 pubnub.publish({
@@ -73,6 +73,8 @@
                   message: { messageType: 'confirmation', id: userCredentials.id, first_name: userCredentials.first_name }
                 });
               }
+              e.preventDefault();
+              return false;
             });
           });
         } else {
