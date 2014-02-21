@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.0/jquery.mobile.min.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.0/jquery.mobile.min.js"></script>
+<script src=http://cdn.pubnub.com/pubnub.min.js ></script>
+
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '217597998440130',
+      status     : true,
+      xfbml      : true
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+<div class="row" id="row-1"></div>
+<div class="row" id="row-2"></div>
+<div class="row" id="row-3"></div>
+<div class="row" id="row-4"></div>
+<div class="row" id="row-5">
+  <div class="button" id="login">LOGIN WITH FB</div>
+</div>
+
+
+<script>
+  $(function(){ 
+    var userCredentials = null;
+    pubnub = connectToPubNub();
+
+    $('#login').on('click tap', function() {
+      FB.login(function(response) {
+        if (response.authResponse) {
+          FB.api('/me', function(response) {
+            userCredentials = response;
+
+            $.post( 'users', { user: { fb_id: response.id, first_name: response.first_name } } );
+
+            $(".row").on('click tap', function(){
+              var userCredentialsWithRowId   = userCredentials;
+              userCredentialsWithRowId.rowId = this.id;
+
+              pubnub.publish({
+                channel: 'desktop',        
+                message: userCredentialsWithRowId
+              });
+
+              moveImgToRow( userCredentialsWithRowId.id, this.id );
+            });
+
+            pubnub.publish({
+              channel: 'desktop',        
+              message: userCredentials
+            });
+
+            $('#login').hide();
+
+            $("#row-3").html( getImage( response.id ) );
+
+            
+          });
+        } else {
+          console.log('User cancelled login or did not fully authorize.');
+        }
+      });
+    });
+  });
+</script>

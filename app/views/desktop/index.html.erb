@@ -1,0 +1,26 @@
+<script src=http://cdn.pubnub.com/pubnub.min.js ></script>
+<script>
+  var pubnub = connectToPubNub();
+
+  pubnub.subscribe({
+    channel: 'desktop',
+    message: function( m ){
+      
+      $('.welcome-message').hide()
+        
+      if( m.rowId === undefined ) {
+        m.rowId = 'row-3';
+      }
+
+      moveImgToRow( m.id, m.rowId );
+    }
+  });
+</script>
+
+<div class="row" id="row-1"></div>
+<div class="row" id="row-2"></div>
+<div class="row" id="row-3">
+  <div class="welcome-message">IF YOU'RE NOT COLORBLIND GO TO WWW.COLORBLIND.COM ON YOUR MOBILE</div>
+</div>
+<div class="row" id="row-4"></div>
+<div class="row" id="row-5"></div>
