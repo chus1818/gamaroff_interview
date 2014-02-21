@@ -26,13 +26,13 @@
 <div class="row" id="row-2"></div>
 <div class="row" id="row-3"></div>
 <div class="row" id="row-4"></div>
-<div class="row" id="row-5">
-  <div class="button" id="login">LOGIN WITH FB</div>
-</div>
+<div class="row" id="row-5"></div>
+<div class="button" id="login">LOGIN WITH FB</div>
 
 
 <script>
   $(function(){ 
+    centerH('.button')
     var userCredentials = null;
     pubnub = connectToPubNub();
 
@@ -72,8 +72,6 @@
                   channel: 'desktop',        
                   message: { messageType: 'confirmation', id: userCredentials.id, first_name: userCredentials.first_name }
                 });
-
-                //$(this).addClass('confirmed');
               }
             });
           });

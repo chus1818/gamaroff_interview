@@ -14,6 +14,24 @@
 //= require jquery_ujs
 //= require_tree .
 
+$(function(){
+  Array.prototype.isEqualTo = function (array) {
+    if (!array) return false;
+    if (this.length != array.length) return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+      if (this[i] instanceof Array && array[i] instanceof Array) {
+        if (!this[i].compare(array[i]))
+          return false;
+      }
+      else if (this[i] != array[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+})
+
 function getImage(id){
   return "<div id='c_" + id + "' class='column'>" + 
     "<img src='http://graph.facebook.com/" + id + "/picture?type=large' id=" + id + " class=fb-profile />"
@@ -51,7 +69,7 @@ function addItemToArrayIfNotPresent(element, array) {
   }
 }
 
-function storeStates(userState, array) {
+function storeState(userState, array) {
   $.each(array, function(index, value){
     if( value.id == userState.id ) {
       array.splice( index, 1 );
@@ -61,26 +79,66 @@ function storeStates(userState, array) {
   return array;
 }
 
-function storeState( state ) {
-  var color = '#694278';
+// Carrousel
+
+function carrousel( statesArray ) {
+  $(".row").hide();
+  $(".fb-profile").hide();
+
+  var n = 0;
   
+  n = performCarrouselStateIteration( n, statesArray );
+  setInterval(function(){
+    n = performCarrouselStateIteration( n, statesArray );
+  }, 3000)
+}
+
+function setCarrouselState( state ) {
+  var color = '#694278';
+  debugger;
   switch( state.rowId ){
-    case 'row_1':
+    case 'row-1':
       color = '#694278';
       break;
-    case 'row_2':
+    case 'row-2':
       color = '#e33c3c';
       break;
-    case 'row_3':
+    case 'row-3':
       color = '#328a6a';
       break;
-    case 'row_4':
+    case 'row-4':
       color = '#f2bf57';
       break;
-    case 'row_5':
+    case 'row-5':
       color = '#265a76';
       break;
   }
-
+  debugger;
   $('body').css('background', color);
+  
+  if( $("#first-name") ) { $("#first-name").remove() }
+  $('body').append( "<div id='first-name'>" + state.first_name + "</div>" );
+  centerV( "#first-name" );
+}
+
+function performCarrouselStateIteration( n, statesArray ) {
+  setCarrouselState( statesArray[n] );
+  n++;
+  if( n >= statesArray.length ) { n = 0 };
+  return n;
+}
+
+// DOM positionining
+
+function centerV( element ) {
+  $(element).offset( { top: ($(window).outerHeight() - $(element).outerHeight())/2 })
+}
+
+function centerH( element ) {
+  $(element).offset( { left: ($(window).outerWidth() - $(element).outerWidth())/2 })
+}
+
+function centerHV( element ) {
+  centerH( element );
+  centerV( element );
 }

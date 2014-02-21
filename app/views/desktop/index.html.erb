@@ -1,27 +1,22 @@
 <script src=http://cdn.pubnub.com/pubnub.min.js ></script>
 <script>
-  var pubnub = connectToPubNub();
-  var presentUsers = [];
-  var confirmedUsers = [];
-  var userStates = [];
+  $(function(){
+    var pubnub         = connectToPubNub();
+    var presentUsers   = [];
+    var confirmedUsers = [];
+    var userStates     = [];
 
-  pubnub.subscribe({
-    channel: 'desktop',
-    message: function( m ){
-      if( m.messageType == 'confirmation' ) {
-        addItemToArrayIfNotPresent( m.id, confirmedUsers );
-      } else {
-        if( presentUsers == confirmedUsers ) {
-          
-          var n = 1;
-          $(".row").hide();
+    centerV(".welcome-message");
 
-          setInterval(function(){
-            setState( userStates[n] );
-            n++;
-            if( n > confirmedUsers.length ) { n = 1 }
-          }, 3000)
+    pubnub.subscribe({
+      channel: 'desktop',
+      message: function( m ){
+        if( m.messageType == 'confirmation' ) {
+          addItemToArrayIfNotPresent( m.id, confirmedUsers );
 
+          if( presentUsers.sort().isEqualTo(confirmedUsers.sort()) ){
+            carrousel( userStates );
+          }
         } else {
 
           addItemToArrayIfNotPresent( m.id, presentUsers );
@@ -33,16 +28,16 @@
           }
 
           moveImgToRow( m.id, m.rowId, 'body' );
+          
         }
       }
-    }
+    });
   });
 </script>
 
 <div class="row" id="row-1"></div>
 <div class="row" id="row-2"></div>
-<div class="row" id="row-3">
-  <div class="welcome-message">IF YOU'RE NOT COLORBLIND GO TO WWW.COLORBLIND.COM ON YOUR MOBILE</div>
-</div>
+<div class="row" id="row-3"></div>
 <div class="row" id="row-4"></div>
 <div class="row" id="row-5"></div>
+<div class="welcome-message">IF YOU'RE NOT COLORBLIND GO TO WWW.COLORBLIND.COM ON YOUR MOBILE</div>

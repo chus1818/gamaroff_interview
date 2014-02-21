@@ -3,12 +3,13 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .button {
-  margin-left: auto;
-  margin-right: auto;
-  width: 20%;
+  position: absolute;
+  top: 85%;
   text-align: center;
   font-weight: bold;
   color: blue;
   background: grey;
   z-index: 20;
+  padding: 2.5em 4em;
+  cursor: pointer;
 }

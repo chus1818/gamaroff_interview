@@ -50,13 +50,15 @@ html, body, .ui-page {
 }
 
 img.fb-profile {
-  max-height: 20%;
+  height: 20%;
   z-index: 20;
-  position: absolute;
+  position: relative;
+  cursor: pointer;
 }
 
 .column {
   height: 100%;
+  display: inline-block;
 }
 
 img.fb-profile .confirmed {
