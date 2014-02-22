@@ -1,8 +1,5 @@
 <%= javascript_include_tag params[:controller] %>
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.0/jquery.mobile.min.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.0/jquery.mobile.min.js"></script>
-
-<div id="fb-root"></div>
+<%= include_from_remote :jquery_mobile %>
 
 <div class="row" id="row-1"></div>
 <div class="row" id="row-2"></div>

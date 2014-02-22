@@ -38,6 +38,8 @@ $(function(){
 // Facebook SDK initialization
 
 function initializeFbSDK(){
+  $('body').prepend("<div id='fb-root'></div>")
+
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '217597998440130',
