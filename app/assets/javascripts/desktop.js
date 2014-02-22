@@ -17,7 +17,7 @@ $(function(){
         confirmedUsers.addItemToArrayIfNotPresent( m.id );
 
         if( presentUsers.sort().isEqualTo(confirmedUsers.sort()) ){
-          launchCarrousel( userStates );
+          inCarrousel = launchCarrousel( userStates );
         }
 
       } else {
@@ -37,5 +37,5 @@ $(function(){
 
 function launchCarrousel( userStates ) {
   carrousel( userStates );
-  inCarrousel = true;
+  return true;
 }
