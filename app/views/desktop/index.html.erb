@@ -1,45 +1,4 @@
-<script src=http://cdn.pubnub.com/pubnub.min.js ></script>
-<script>
-  $(function(){
-    var pubnub         = connectToPubNub();
-    var presentUsers   = [];
-    var confirmedUsers = [];
-    var userStates     = [];
-    var inCarrousel    = false;
-
-    centerV(".welcome-message");
-
-    pubnub.subscribe({
-      channel: 'desktop',
-      message: function( m ){
-        if( inCarrousel === true ) return false;
-
-        if( m.messageType == 'confirmation' ) {
-          
-          addItemToArrayIfNotPresent( m.id, confirmedUsers );
-
-          if( presentUsers.sort().isEqualTo(confirmedUsers.sort()) ){
-            carrousel( userStates );
-            inCarrousel = true;
-          }
-
-        } else {
-
-          addItemToArrayIfNotPresent( m.id, presentUsers );
-          userStates = storeState( m, userStates );
-          $('.welcome-message').hide()
-          
-          if( m.rowId === undefined ) {
-            m.rowId = 'row-3';
-          }
-
-          moveImgToRow( m.id, m.rowId, 'body' );
-          
-        }
-      }
-    });
-  });
-</script>
+<%= javascript_include_tag params[:controller] %>
 
 <div class="row" id="row-1"></div>
 <div class="row" id="row-2"></div>

@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
 
 $(function(){
   Array.prototype.isEqualTo = function (array) {
@@ -30,7 +29,31 @@ $(function(){
     }
     return true;
   }
+
+  Array.prototype.addItemToArrayIfNotPresent = function(element) {
+    if ($.inArray(element, this) == -1) this.push(element);
+  }
 })
+
+// Facebook SDK initialization
+
+function initializeFbSDK(){
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '217597998440130',
+      status     : true,
+      xfbml      : true
+    });
+  };
+
+  (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+}
 
 // Pubnub handling
 
@@ -47,6 +70,8 @@ function publishToPubnub( pubnubObj, message ){
     message: message
   });
 }
+
+// Image append and repositioning
 
 function getImage(id){
   return "<div id='c_" + id + "' class='column'>" + 
@@ -70,23 +95,6 @@ function moveImgToRow( imgId, row, container ) {
   appendImage( imgId, row, container );
 }
 
-function addItemToArrayIfNotPresent(element, array) {
-  var found = jQuery.inArray(element, array);
-  if (found == -1) {
-    array.push(element);
-  }
-}
-
-function storeState(userState, array) {
-  $.each(array, function(index, value){
-    if( value.id == userState.id ) {
-      array.splice( index, 1 );
-    }
-  })
-  array.push(userState);
-  return array;
-}
-
 // Carrousel
 
 function carrousel( statesArray ) {
@@ -99,6 +107,16 @@ function carrousel( statesArray ) {
   setInterval(function(){
     n = performCarrouselStateIteration( n, statesArray );
   }, 3000)
+}
+
+function storeState(userState, array) {
+  $.each(array, function(index, value){
+    if( value.id == userState.id ) {
+      array.splice( index, 1 );
+    }
+  })
+  array.push(userState);
+  return array;
 }
 
 function setCarrouselState( state ) {
