@@ -113,8 +113,10 @@ function carrousel( statesArray ) {
 
 function storeState(userState, array) {
   $.each(array, function(index, value){
-    if( value.id == userState.id ) {
-      array.splice( index, 1 );
+    if( value != undefined ) {
+      if( value.id == userState.id ) {
+        array.splice( index, 1 );
+      }
     }
   })
   array.push(userState);

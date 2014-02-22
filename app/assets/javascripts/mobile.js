@@ -19,7 +19,7 @@ $(function(){
 
           // Events to be defined after receiving a successful fb login response
           defineRowActions( pubnub, response );
-          defineProfileImageActions( pubnub, response );
+          defineTapHoldAction( pubnub, response );
         });
       } else {
         console.log('User cancelled login or did not fully authorize.');
@@ -29,7 +29,7 @@ $(function(){
 });
 
 function defineRowActions( pubnub, fbLoginResponse ) {
-  $(".row").on('click tap', function(){
+  $(".row").on('tap', function(){
     fbLoginResponse.rowId = this.id;
 
     publishToPubnub( pubnub, fbLoginResponse );
@@ -38,9 +38,9 @@ function defineRowActions( pubnub, fbLoginResponse ) {
   });
 }
 
-function defineProfileImageActions( pubnub, fbLoginResponse ) {
-  $(".fb-profile").on('click taphold', function(){
-    c = confirm( 'are you sure?' );
+function defineTapHoldAction( pubnub, fbLoginResponse ) {
+  $(".ui-page").on('taphold', function(){
+    c = confirm( 'are you sure that you want that color?' );
 
     if( c == true ) {
       var message = { 
